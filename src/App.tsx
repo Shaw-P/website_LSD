@@ -13,9 +13,13 @@ import { useEffect } from 'react';
 function App() {
   useEffect(() => {
     AOS.init({
-      duration: 1000,
+      duration: 800,
       once: true,
       easing: 'ease-out-cubic',
+      offset: 100,
+      delay: 0,
+      disable: window.innerWidth < 768,
+      throttleDelay: 99,
     });
   }, []);
 
@@ -27,7 +31,7 @@ function App() {
   };
 
   return (
-    <div className="relative">
+    <div className="relative min-h-screen bg-gradient-to-b from-black via-gray-900 to-black">
       {/* 固定背景 */}
       <BeamsBackground intensity="strong" className="fixed inset-0 z-0" />
       
@@ -55,30 +59,26 @@ function App() {
             >
               <Button size="lg" className="bg-white text-black hover:bg-white/90" onClick={scrollToProducts}>
                 Let's Go
-                {/* <ArrowRight className="ml-2 h-4 w-4" /> */}
                 <Smile className="ml-2 h-4 w-4" />
               </Button>
-              {/* <Button size="lg" className="bg-white text-black border-white/20 hover:bg-white/90 hover:text-black">
-                Learn More
-              </Button> */}
             </motion.div>
           </div>
         </section>
 
         {/* Products Section */}
-        <section className="py-20" data-aos="fade-up">
+        <section className="py-20" data-aos="fade-up" data-aos-duration="600">
           <ProductCarousel />
         </section>
 
         {/* Features Section */}
-        <section className="py-32 bg-black/20 backdrop-blur-sm" data-aos="fade-up">
+        <section id="features" className="py-32">
           <div className="max-w-7xl mx-auto px-4">
             <motion.h2 
               className="text-3xl md:text-4xl font-bold text-white text-center mb-16"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.5 }}
             >
               Features You'll Love
             </motion.h2>
@@ -117,64 +117,76 @@ function App() {
               ].map((feature, index) => (
                 <motion.div
                   key={index}
-                  className="bg-white/10 p-8 rounded-lg border border-white/20 hover:bg-white/20 transition-colors"
+                  className="bg-black/40 p-6 rounded-lg"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1, duration: 0.5 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <div className="text-4xl mb-4">{feature.icon}</div>
-                  <h3 className="text-xl font-bold text-white mb-4">{feature.title}</h3>
-                  <p className="text-white/80">{feature.description}</p>
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="p-2 bg-white/10 rounded-lg text-2xl">
+                      {feature.icon}
+                    </div>
+                    <h3 className="text-xl font-bold text-white">{feature.title}</h3>
+                  </div>
+                  <p className="text-gray-300">{feature.description}</p>
                 </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* 臨時內容區塊 */}
-        <section className="py-20 bg-black/20 backdrop-blur-sm" data-aos="fade-up">
-          <div className="max-w-6xl mx-auto px-4">
-            <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-8">
-              測試區塊 1
-            </h2>
+        {/* 測試區塊 */}
+        <section id="test" className="py-32">
+          <div className="max-w-7xl mx-auto px-4">
+            <motion.h2 
+              className="text-3xl md:text-4xl font-bold text-white text-center mb-16"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.5 }}
+            >
+              測試區塊
+            </motion.h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {Array.from({ length: 4 }).map((_, index) => (
-                <div 
-                  key={index} 
-                  className="bg-white/10 p-8 rounded-lg"
-                  data-aos="fade-up"
-                  data-aos-delay={index * 100}
+              {[
+                {
+                  title: "測試項目 1",
+                  description: "這是一個測試項目的描述文字，用於展示頁面效果。",
+                  icon: "📊"
+                },
+                {
+                  title: "測試項目 2",
+                  description: "這是另一個測試項目的描述文字，用於展示頁面效果。",
+                  icon: "🔧"
+                },
+                {
+                  title: "測試項目 3",
+                  description: "這是第三個測試項目的描述文字，用於展示頁面效果。",
+                  icon: "⚡"
+                },
+                {
+                  title: "測試項目 4",
+                  description: "這是第四個測試項目的描述文字，用於展示頁面效果。",
+                  icon: "🎯"
+                }
+              ].map((testItem, index) => (
+                <motion.div
+                  key={index}
+                  className="bg-black/40 p-6 rounded-lg"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <h3 className="text-xl font-bold text-white mb-4">測試標題 {index + 1}</h3>
-                  <p className="text-white/80">
-                    這是一段測試文字，用來確認頁面是否可以正常滾動。這是一段測試文字，用來確認頁面是否可以正常滾動。
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* 另一個臨時內容區塊 */}
-        <section className="py-20 bg-black/30 backdrop-blur-sm" data-aos="fade-up">
-          <div className="max-w-6xl mx-auto px-4">
-            <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-8">
-              測試區塊 2
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {Array.from({ length: 6 }).map((_, index) => (
-                <div 
-                  key={index} 
-                  className="bg-white/10 p-6 rounded-lg"
-                  data-aos="fade-up"
-                  data-aos-delay={index * 100}
-                >
-                  <h3 className="text-xl font-bold text-white mb-4">測試卡片 {index + 1}</h3>
-                  <p className="text-white/80">
-                    這是另一段測試文字，用來確認頁面是否可以正常滾動。
-                  </p>
-                </div>
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="p-2 bg-white/10 rounded-lg text-2xl">
+                      {testItem.icon}
+                    </div>
+                    <h3 className="text-xl font-bold text-white">{testItem.title}</h3>
+                  </div>
+                  <p className="text-gray-300">{testItem.description}</p>
+                </motion.div>
               ))}
             </div>
           </div>
